@@ -135,8 +135,8 @@ let rangeObject = {
   // Створюємо метод "next" який визначає поведінку при кожній ітерації
   next() {
     if (this.current < this.to) {
-      return { done: false, value: this.current };
-     } else if (this.current > this.to) {
+      return { done: false, value: this.current++ };
+     } else {
       return { done: true};
      }
   },
@@ -148,10 +148,11 @@ let rangeObject = {
 
 // Функція "useSymbolIterator" використовує ітератор для отримання значень об'єкта
 function useSymbolIterator(obj) {
-  for (let sum of obj) {
-    let result = [sum];
-    return result;
+  let result = [];
+  for (let value of obj) {
+    result = [...result, value];
   }
+  return result;
   
   // Проходимо крізь елементи об'єкта obj, використовуючи цикл "for...of"
   // Додаємо кожне значення до масиву "result"
@@ -180,19 +181,18 @@ let myObject = {
   // Оголошення методу Symbol.iterator для об'єкта "myObject"
   //Повертаємо this
   [Symbol.iterator]() {
-    this.currentIndex = this.from;
     return this;
   },
 
   // Оголошення методу "next" для ітерації
   next() {
-   if (this.currentIndex < this.category) {
-    let value = (this.category[name(currentIndex)])
-    currentIndex += 1;
-    return { done: false, myObject: this.currentIndex };
-   } else if (this.currentIndex > this.category) {
+   if (this.currentIndex < this.category.length) {
+    let value = this.category[this.currentIndex].name;
+    this.currentIndex++;
+    return { value, done: false };
+   } else {
     return { done: true }
-   }
+  }
   },
   // Створюємо логічний оператор який буде перевіряти чи властивість об'єкту currentIndex менша ніж довжина масиву category
   //Створюємо змінну value якій присвоємо властивість name елемента масиву category з індексом currentIndex
